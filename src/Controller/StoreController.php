@@ -9,21 +9,22 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StoreController extends AbstractController
 {
-    /**
-     * @Route("/store/product/{id}/details/{slug}", name="store_show_product", requirements={"id"="\d+"})
-     */
-    final public function homepage(int $id, string $slug, Request $request): Response
+
+
+    #[Route('/product_list', name: 'store_product_list', methods: ['GET'])]
+    public function list(): Response
     {
-        return $this->render('store/product.html.twig', [
+        return $this->render('store/product_list.html.twig', [
             'controller_name' => 'StoreController',
-            'id' => $id,
-            'slug' => $slug,
-            'ip' => $request->getClientIp(),
-            'url' => $request->getUri(),
-            'from_routing' => $this->generateUrl('store_show_product', [
-                'id' => $id,
-                'slug' => $slug
-            ])
+        ]);
+    }
+
+    #[Route('/product/detail/{id}', name: 'store_product_detail', methods: ['GET'])]
+    public function details(int $id): Response
+    {
+        return $this->render('store/product_detail.html.twig', [
+            'controller_name' => 'StoreController',
+            'id' => $id
         ]);
     }
 }
