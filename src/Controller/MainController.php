@@ -19,18 +19,12 @@ class MainController extends AbstractController
     #[Route('/presentation', name: 'main_presentation', methods: ['GET'])]
     public function presentation(): Response
     {
-        return $this->render('main/presentation.html.twig', [
-            'controller_name' => 'MainController',
-            'pathinfo' => '/presentation'
-        ]);
+        return $this->render('main/presentation.html.twig', []);
     }
 
     #[Route('/contact', name: 'main_contact')]
     public function contact(): Response
     {
-        return $this->render('main/contact.html.twig', [
-            'controller_name' => 'StoreController',
-            'pathinfo' => '/contact',
-        ]);
+        return $this->render('main/contact.html.twig', []);
     }
 }

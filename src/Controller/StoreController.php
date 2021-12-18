@@ -9,32 +9,34 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class StoreController extends AbstractController
 {
-    #[Route('/store', name: 'store')]
-    public function index(): Response
+    // #[Route('/store', name: 'store')]
+    // public function index(): Response
+    // {
+    //     return $this->render('store/index.html.twig', [
+    //         'controller_name' => 'StoreController',
+    //     ]);
+    // }
+
+
+
+    #[Route('/products', name: 'main_products')]
+    public function products(): Response
     {
-        return $this->render('store/index.html.twig', [
-            'controller_name' => 'StoreController',
-        ]);
+        return $this->render('store/products.html.twig', []);
     }
 
     #[Route(
-        '/store/product/{id}/detail/{slug}',
+        '/store/product/{{id}}/details/{{slug}}',
         name: 'store_show_product',
         requirements: ['id' => '\d+']
     )]
-    public function showProduct(int $id, string $slug, Request $request): Response
+    public function showProduct(int $id, string $slug): Response
     {
-        return $this->render('store/product.html.twig', [
-            'controller_name' => 'StoreController',
-            'pathinfo' => '/store/product/{id}/detail/{slug}',
+        return $this->render('store/product_details.html.twig', [
             'id' => $id,
-            'slug' => $slug,
-            'ip' => $request->getClientIp(),
-            'url' => $request->getUri(),
-            'from_routing' => $this->generateUrl('store_show_product', [
-                'id' => $id,
-                'slug' => $slug
-            ])
+            // 'from_routing' => $this->generateUrl('store_show_product', [
+            //     'id' => $id,
+            // ])
         ]);
     }
 }

@@ -1,16 +1,55 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}{{parent()}} Presentation{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block page_content %}
+<!-- Page Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1>Shoefony, l'univers du sport</h1>
+        </div>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    <h2>path => {{pathinfo}}</h2>
-    
-</div>
-{% endblock %}
+    <hr />
+
+    <div class="row">
+        <div class="col-md-5">
+            <img class="img-responsive" src="{{ asset('img/shop.jpg') }}" alt="Shoe-fony boutique" />
+        </div>
+        <div class="col-md-7">
+            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your
+                    mind.</span></h2>
+            <p class="lead">
+                Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
+                commodo. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-7">
+            <h2 class="featurette-heading">First featurette heading. <span class="text-muted">It'll blow your
+                    mind.</span></h2>
+            <p class="lead">
+                Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
+                commodo. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+            <p class="lead">
+                Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus, tellus ac cursus
+                commodo. Donec ullamcorper nulla non metus auctor fringilla.
+            </p>
+        </div>
+        <div class="col-md-5">
+            <img class="img-responsive" src="{{ asset('img/team.jpg')}}" alt="Shoe-fony équipe" />
+        </div>
+    </div>
+
+    <hr />
+
+    {% endblock %}
