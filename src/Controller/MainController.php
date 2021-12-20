@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
+use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,9 +25,20 @@ class MainController extends AbstractController
         return $this->render('main/presentation.html.twig', []);
     }
 
-    #[Route('/contact', name: 'main_contact')]
-    public function contact(): Response
+    #[Route('/contact', name: 'main_contact', methods: ['GET', 'POST'])]
+    public function contact(Request $request): Response
     {
-        return $this->render('main/contact.html.twig', []);
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->addFlash('success', 'Bien ete envoye');
+
+            return $this->redirectToRoute('main_contact');
+        }
+        return $this->render('main/contact.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
