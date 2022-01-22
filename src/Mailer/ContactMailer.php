@@ -23,7 +23,7 @@ final class ContactMailer
     {
 
         $email = (new Email())
-            ->from('hello@gmail.com')
+            ->from('yo@gmail.com')
             ->to('contact@shoefony.com')
             ->subject('Un message de contact sur Shoefony')
             ->html($this->twig->render('email/contact.html.twig', ['contact' => $this->contactEmailAddress]));
