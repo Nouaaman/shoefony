@@ -2,12 +2,14 @@
 
 namespace App\Entity\Store;
 
+use App\Entity\Store\Image;
 use App\Repository\Store\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Cocur\Slugify\Slugify;
 
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
-#[ORM\Table(name: "product")]
+#[ORM\Table(name: "sto_product")]
 
 
 class Product
@@ -23,11 +25,29 @@ class Product
     #[ORM\Column(type: 'string', length: 255)]
     private $description;
 
+    #[ORM\Column(type: "string")]
+    private $descriptionLongue;
+
+
     #[ORM\Column(type: 'float')]
     private $price;
 
     #[ORM\Column(type: 'datetime')]
     private \DateTime $createdAt;
+
+    #[ORM\OneToOne(targetEntity: "App\Entity\Store\Image", cascade: ["persist"])]
+    #[ORM\JoinColumn(nullable: false, name: 'sto_image_id')]
+    private $image;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $slug;
+
+
+    #[ORM\ManyToMany(targetEntity: Color::class, mappedBy: "proucts")]
+    #[ORM\JoinTable(name: "sto_color")]
+
+    private $colors;
+
 
     public function __construct()
     {
@@ -62,6 +82,16 @@ class Product
         return $this;
     }
 
+    public function getDescriptionLongue(): ?string
+    {
+        return $this->descriptionLongue;
+    }
+    public function setDescriptionLongue(string $descriptionLongue): self
+    {
+        $this->descriptionLongue = $descriptionLongue;
+        return $this;
+    }
+
 
     public function getCreatedAt(): ?\DateTime
     {
@@ -80,6 +110,65 @@ class Product
     public function setPrice(float $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(Image $image): self
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify($slug);
+        return $this;
+    }
+
+    public function getBrand(): ?Brand
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(?Brand $brand): self
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    public function getColors()
+    {
+        return $this->colors;
+    }
+
+    public function addColor(Color $color): self
+    {
+        if (!$this->colors->contains($color)) {
+            $this->colors[] = $color;
+            $color->addProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeColor(Color $color): self
+    {
+        if ($this->colors->removeElement($color)) {
+            $color->removeProduct($this);
+        }
 
         return $this;
     }

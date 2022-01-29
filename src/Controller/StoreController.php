@@ -7,32 +7,46 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Store\Product;
 
 class StoreController extends AbstractController
 {
 
-    public function __construct(
-        private ProductRepository $productRepository
-    ) {
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
     }
+
     #[Route('/product_list', name: 'store_product_list', methods: ['GET'])]
     public function listProducts(): Response
     {
+        $products = $this->em->getRepository(Product::class)->findAll();
 
         return $this->render('store/product_list.html.twig', [
             'controller_name' => 'StoreController',
+            'products' => $products,
         ]);
     }
 
 
 
 
-    #[Route('/product/detail/{id}', name: 'store_product_detail', methods: ['GET'])]
-    public function details(int $id): Response
+    #[Route('/store/product/{id}/details/{slug}', name: 'store_product_detail', methods: ['GET'])]
+    public function productDetail(int $id, string $slug): Response
     {
+        $product = $this->em->getRepository(Product::class)->find($id);
+
+        if (!$product) {
+            throw $this->createNotFoundException('Product not found');
+        }
+
         return $this->render('store/product_detail.html.twig', [
             'controller_name' => 'StoreController',
-            'id' => $id
+            'product' => $product,
+            'slug' => $slug
         ]);
     }
 }
