@@ -3,9 +3,12 @@
 namespace App\Entity\Store;
 
 use App\Entity\Store\Image;
+use App\Entity\Store\Color;
+use App\Entity\Store\Brand;
 use App\Repository\Store\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -35,7 +38,7 @@ class Product
     #[ORM\Column(type: 'datetime')]
     private \DateTime $createdAt;
 
-    #[ORM\OneToOne(targetEntity: "App\Entity\Store\Image", cascade: ["persist"])]
+    #[ORM\OneToOne(targetEntity: Image::class, cascade: ["persist"])]
     #[ORM\JoinColumn(nullable: false, name: 'sto_image_id')]
     private $image;
 
@@ -43,15 +46,19 @@ class Product
     private $slug;
 
 
-    #[ORM\ManyToMany(targetEntity: Color::class, mappedBy: "proucts")]
-    #[ORM\JoinTable(name: "sto_color")]
+    #[ORM\ManyToOne(targetEntity: Brand::class, inversedBy: "products")]
+    #[ORM\JoinColumn(nullable: false, name: 'sto_brand_id')]
+    private $brand;
 
+    #[ORM\ManyToMany(targetEntity: Color::class, mappedBy: "products")]
+    #[ORM\JoinTable(name: "sto_color")]
     private $colors;
 
 
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->colors = new ArrayCollection();
     }
     public function getId(): ?int
     {

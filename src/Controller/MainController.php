@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Mailer\ContactMailer;
+use App\Repository\Store\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ class MainController extends AbstractController
     private ContactMailer $mailer;
     private $em;
 
-    public function __construct(EntityManagerInterface $em, ContactMailer $mailer)
+    public function __construct(EntityManagerInterface $em, ContactMailer $mailer,ProductRepository $proRepo)
     {
         $this->mailer = $mailer;
         $this->em = $em;

@@ -26,7 +26,6 @@ class Color
 
     #[ORM\ManyToMany(targetEntity:Product::class, inversedBy:"colors")]
     #[ORM\JoinTable(name:"sto_product_color")]
-    
     private $products;
 
     public function __construct()
@@ -37,6 +36,7 @@ class Color
     public function getId(): ?int
     {
         return $this->id;
+
     }
 
     public function getName(): ?string
@@ -57,18 +57,18 @@ class Color
         return $this->products;
     }
 
-    public function addProduct(Product $prouct): self
+    public function addProduct(Product $product): self
     {
-        if (!$this->products->contains($prouct)) {
-            $this->products[] = $prouct;
+        if (!$this->products->contains($product)) {
+            $this->products[] = $product;
         }
 
         return $this;
     }
 
-    public function removeProduct(Product $prouct): self
+    public function removeProduct(Product $product): self
     {
-        $this->products->removeElement($prouct);
+        $this->products->removeElement($product);
 
         return $this;
     }
