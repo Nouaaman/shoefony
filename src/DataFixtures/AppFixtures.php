@@ -26,22 +26,22 @@ class AppFixtures extends Fixture
 
 
     private const COLORS = [
-        ['Orange'],
-        ['Marron'],
-        ['Gris'],
-        ['Blanc'],
-        ['Noir'],
-        ['Rouge'],
-        ['Bleu'],
-        ['Vert'],
-        ['Jaune']
+        'Orange',
+        'Marron',
+        'Gris',
+        'Blanc',
+        'Noir',
+        'Rouge',
+        'Bleu',
+        'Vert',
+        'Jaune'
     ];
 
     private const BRANDS = [
-        ['Nike'],
-        ['Puma'],
-        ['Adidas'],
-        ['Asics']
+        'Nike',
+        'Puma',
+        'Adidas',
+        'Asics'
     ];
 
     private $em;
@@ -78,7 +78,7 @@ class AppFixtures extends Fixture
 
     private function loadBrands(): void
     {
-        foreach (self::BRANDS as $key => [$name]) {
+        foreach (self::BRANDS as $key => $name) {
             $brand = new Brand();
             $brand->setName($name);
             $this->manager->persist($brand);
@@ -88,7 +88,7 @@ class AppFixtures extends Fixture
 
     private function loadColors(): void
     {
-        foreach (self::COLORS as $key => [$name]) {
+        foreach (self::COLORS as $key => $name) {
             $color = new Color();
             $color->setName($name);
             $this->manager->persist($color);
@@ -112,5 +112,15 @@ class AppFixtures extends Fixture
     private function getRandomEntityReference(string $entityClass, array $data): object
     {
         return $this->getReference($entityClass . random_int(0, count($data) - 1));
+    }
+
+    private function loadComments(): void
+    {
+        foreach (self::BRANDS as $key => [$name]) {
+            $brand = new Brand();
+            $brand->setName($name);
+            $this->manager->persist($brand);
+            $this->addReference(Brand::class . $key, $brand);
+        }
     }
 }
